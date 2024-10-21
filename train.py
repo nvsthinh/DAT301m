@@ -34,7 +34,8 @@ def contruct_params(parser):
 
     args = parser.parse_args()
 
-    args = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    args.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
     return args
 
 def train(model, train_loader, optimizer, scheduler):
