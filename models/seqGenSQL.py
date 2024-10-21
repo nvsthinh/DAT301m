@@ -24,7 +24,7 @@ class SeqGenSQL(nn.Module):
 
         # Load model and tokenizer
         self.model = T5ForConditionalGeneration.from_pretrained(hparams.model_name_or_path)
-        self.tokenizer = T5Tokenizer.from_pretrained(hparams.model_name_or_path)
+        self.tokenizer = T5Tokenizer.from_pretrained(hparams.model_name_or_path, legacy=False)
 
         # Move model to the specified device
         self.model.to(self.hparams.device)

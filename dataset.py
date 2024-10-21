@@ -203,11 +203,11 @@ class WikiSqlDataset(Dataset):
         self.gate_masks.append(gate_mask)
         # tokenize inputs
         tokenized_inputs = self.tokenizer.batch_encode_plus(
-            [input_string], max_length=self.max_input_len, pad_to_max_length=True, return_tensors="pt"
+            [input_string], max_length=self.max_input_len, pad_to_max_length=True, return_tensors="pt", truncation=True
         )
         # tokenize targets
         tokenized_targets = self.tokenizer.batch_encode_plus(
-            [target_string], max_length=self.max_output_len, pad_to_max_length=True, return_tensors="pt"
+            [target_string], max_length=self.max_output_len, pad_to_max_length=True, return_tensors="pt", truncation=True
         )
         
         source_ids = tokenized_inputs["input_ids"].squeeze()
@@ -247,11 +247,11 @@ class WikiSqlDataset(Dataset):
                 self.target_string.append(sql_statement)
                 # tokenize inputs
                 tokenized_inputs = self.tokenizer.batch_encode_plus(
-                    [input_string], max_length=self.max_input_len, pad_to_max_length=True, return_tensors="pt"
+                    [input_string], max_length=self.max_input_len, pad_to_max_length=True, return_tensors="pt", truncation=True
                 )
                 # tokenize targets
                 tokenized_targets = self.tokenizer.batch_encode_plus(
-                    [sql_statement], max_length=self.max_output_len, pad_to_max_length=True, return_tensors="pt"
+                    [sql_statement], max_length=self.max_output_len, pad_to_max_length=True, return_tensors="pt", truncation=True
                 )
 
                 self.inputs.append(tokenized_inputs)
@@ -277,11 +277,11 @@ class WikiSqlDataset(Dataset):
                         self.target_string.append(sql_statement)
                         # tokenize inputs
                         tokenized_inputs = self.tokenizer.batch_encode_plus(
-                            [input_string], max_length=self.max_input_len, pad_to_max_length=True, return_tensors="pt"
+                            [input_string], max_length=self.max_input_len, pad_to_max_length=True, return_tensors="pt", truncation=True
                         )
                         # tokenize targets
                         tokenized_targets = self.tokenizer.batch_encode_plus(
-                            [sql_statement], max_length=self.max_output_len, pad_to_max_length=True, return_tensors="pt"
+                            [sql_statement], max_length=self.max_output_len, pad_to_max_length=True, return_tensors="pt", truncation=True
                         )
 
                         self.inputs.append(tokenized_inputs)
