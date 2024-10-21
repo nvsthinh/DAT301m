@@ -3,7 +3,10 @@ import torch
 import os
 from tqdm.auto import tqdm
 from models.seqGenSQL import SeqGenSQL
+import warnings
 from utils import train_dataloader, val_dataloader, configure_optimizers, seed_everything
+
+warnings.filterwarnings('ignore')
 
 def contruct_params(parser):
     parser.add_argument('--data_dir', default="data")
@@ -19,7 +22,6 @@ def contruct_params(parser):
     parser.add_argument("--eval_batch_size", default=32)
     parser.add_argument("--num_train_epochs", default=30)
     parser.add_argument("--gradient_accumulation_steps", default=16)
-    parser.add_argument("--device", default=True)
     parser.add_argument("--seed", default=42)
     parser.add_argument("--num_of_workers", default=4)
 
@@ -32,6 +34,7 @@ def contruct_params(parser):
 
     args = parser.parse_args()
 
+    args = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     return args
 
 def train(model, train_loader, optimizer, scheduler):
@@ -61,11 +64,15 @@ if __name__ == '__main__':
     seed_everything(args.seed)
 
     # Data
+    print('DataLoader: ....')
     train_loader = train_dataloader(args)
     eval_loader = val_dataloader(args)
+    print('Complete !!!')
 
     # Model initialization
+    print('Model: ....')
     model = SeqGenSQL(args)
+    print('Complete !!!')
 
     # Optimizer and scheduler
     optimizer, scheduler = configure_optimizers(args, model)
