@@ -32,7 +32,7 @@ def val_dataloader(hparams):
 
 def configure_optimizers(hparams, model, train_loader):
     t_total = (
-        (len(train_loader.dataset) // (hparams.train_batch_size * max(1, hparams.n_gpu)))
+        (len(train_loader.dataset) // (hparams.train_batch_size))
         // hparams.gradient_accumulation_steps
         * float(hparams.num_train_epochs)
     )
