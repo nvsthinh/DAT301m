@@ -23,31 +23,18 @@ class SeqGenSQL(nn.Module):
         self.hparams = hparams
 
         # Load model and tokenizer
-        self.model = T5ForConditionalGeneration.from_pretrained(hparams.model_name_or_path)
-        self.tokenizer = T5Tokenizer.from_pretrained(hparams.model_name_or_path, legacy=False)
-
-        # Move model to the specified device
-        self.model.to(self.hparams.device)
+        self.model = T5ForConditionalGeneration.from_pretrained(hparams.model_name_or_path).to(self.hparams.device)
+        self.tokenizer = T5Tokenizer.from_pretrained(hparams.model_name_or_path, legacy=False).to(self.hparams.device)
 
         if hparams.use_modified_network:
             self.inner_dim = self.model.config.num_heads * self.model.config.d_kv
-            self.q = nn.Linear(self.model.config.d_model, self.inner_dim, bias=False)
-            self.k = nn.Linear(self.model.config.d_model, self.inner_dim, bias=False)
-            self.v = nn.Linear(self.model.config.d_model, self.inner_dim, bias=False)
-            self.layer_norm_gen = LayerNorm(self.model.config.d_model, eps=self.model.config.layer_norm_epsilon)
-            self.layer_norm_ext = LayerNorm(self.model.config.d_model, eps=self.model.config.layer_norm_epsilon)
-            self.ff_gate = nn.Linear(self.model.config.d_model * 2, 1, bias=False)
-            self.o = nn.Linear(self.inner_dim, self.model.config.d_model, bias=False)
-
-        # Move additional layers to the specified device
-        if hparams.use_modified_network:
-            self.q.to(self.hparams.device)
-            self.k.to(self.hparams.device)
-            self.v.to(self.hparams.device)
-            self.layer_norm_gen.to(self.hparams.device)
-            self.layer_norm_ext.to(self.hparams.device)
-            self.ff_gate.to(self.hparams.device)
-            self.o.to(self.hparams.device)
+            self.q = nn.Linear(self.model.config.d_model, self.inner_dim, bias=False).to(self.hparams.device)
+            self.k = nn.Linear(self.model.config.d_model, self.inner_dim, bias=False).to(self.hparams.device)
+            self.v = nn.Linear(self.model.config.d_model, self.inner_dim, bias=False).to(self.hparams.device)
+            self.layer_norm_gen = LayerNorm(self.model.config.d_model, eps=self.model.config.layer_norm_epsilon).to(self.hparams.device)
+            self.layer_norm_ext = LayerNorm(self.model.config.d_model, eps=self.model.config.layer_norm_epsilon).to(self.hparams.device)
+            self.ff_gate = nn.Linear(self.model.config.d_model * 2, 1, bias=False).to(self.hparams.device)
+            self.o = nn.Linear(self.inner_dim, self.model.config.d_model, bias=False).to(self.hparams.device)
 
     def forward(self, input_ids, attention_mask=None, decoder_input_ids=None, decoder_attention_mask=None, lm_labels=None):
         # Move inputs to device
