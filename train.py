@@ -22,6 +22,14 @@ def contruct_params(parser):
     parser.add_argument("--device", default=True)
     parser.add_argument("--seed", default=42)
     parser.add_argument("--num_of_workers", default=4)
+
+    # Data Augmentation and model enhancement Options
+    parser.add_argument("--include_data_type", default=True)
+    parser.add_argument("--num_sample_rows", default=3)
+    parser.add_argument("--data_aug", default=[], help="List, use one of these options: ['select_column', 'where_value']. Default is []")
+    parser.add_argument("--use_modified_network", default=True, help="Use gated layer to decide whether to extract or to generate")
+    parser.add_argument("--generated_data_files", default=[], help="List of the generated data files. Default is []")
+
     args = parser.parse_args()
 
     return args
