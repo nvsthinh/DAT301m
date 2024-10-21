@@ -8,8 +8,7 @@ from transformers import (
     T5ForConditionalGeneration,
     T5Tokenizer
     )
-from tqdm.auto import tqdm
-from layer_norm import LayerNorm
+from models.layer_norm import LayerNorm
 
 ######################################################################
 ## T5 Model with modified layer for WikiSQL
@@ -35,8 +34,8 @@ class SeqGenSQL(nn.Module):
             self.q = nn.Linear(self.model.config.d_model, self.inner_dim, bias=False)
             self.k = nn.Linear(self.model.config.d_model, self.inner_dim, bias=False)
             self.v = nn.Linear(self.model.config.d_model, self.inner_dim, bias=False)
-            self.layer_norm_gen = nn.LayerNorm(self.model.config.d_model, eps=self.model.config.layer_norm_epsilon)
-            self.layer_norm_ext = nn.LayerNorm(self.model.config.d_model, eps=self.model.config.layer_norm_epsilon)
+            self.layer_norm_gen = LayerNorm(self.model.config.d_model, eps=self.model.config.layer_norm_epsilon)
+            self.layer_norm_ext = LayerNorm(self.model.config.d_model, eps=self.model.config.layer_norm_epsilon)
             self.ff_gate = nn.Linear(self.model.config.d_model * 2, 1, bias=False)
             self.o = nn.Linear(self.inner_dim, self.model.config.d_model, bias=False)
 
