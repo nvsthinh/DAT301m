@@ -30,10 +30,16 @@ def val_dataloader(hparams):
     val_dataset = get_dataset(hparams, data_type="dev")
     return DataLoader(val_dataset, batch_size=hparams.eval_batch_size, num_workers=hparams.num_of_workers)
 
-def configure_optimizers(hparams, model):
+def configure_optimizers(hparams, model, train_loader):
+    t_total = (
+        (len(train_loader.dataset) // (hparams.train_batch_size * max(1, hparams.n_gpu)))
+        // hparams.gradient_accumulation_steps
+        * float(hparams.num_train_epochs)
+    )
+
     optimizer = AdamW(model.parameters(), lr=hparams.learning_rate, eps=hparams.adam_epsilon)
     scheduler = get_linear_schedule_with_warmup(
-        optimizer, num_warmup_steps=hparams.warmup_steps, num_training_steps=hparams.t_total
+        optimizer, num_warmup_steps=hparams.warmup_steps, num_training_steps=t_total
     )
     return optimizer, scheduler
 

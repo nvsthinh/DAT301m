@@ -76,7 +76,7 @@ if __name__ == '__main__':
     print('Complete !!!')
 
     # Optimizer and scheduler
-    optimizer, scheduler = configure_optimizers(args, model)
+    optimizer, scheduler = configure_optimizers(args, model, train_loader)
 
     # Training Loop
     for epoch in range(args.num_train_epochs):
