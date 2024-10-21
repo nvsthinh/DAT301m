@@ -24,7 +24,7 @@ class SeqGenSQL(nn.Module):
 
         # Load model and tokenizer
         self.model = T5ForConditionalGeneration.from_pretrained(hparams.model_name_or_path).to(self.hparams.device)
-        self.tokenizer = T5Tokenizer.from_pretrained(hparams.model_name_or_path, legacy=False).to(self.hparams.device)
+        self.tokenizer = T5Tokenizer.from_pretrained(hparams.model_name_or_path, legacy=False)
 
         if hparams.use_modified_network:
             self.inner_dim = self.model.config.num_heads * self.model.config.d_kv
