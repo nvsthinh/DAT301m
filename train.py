@@ -19,7 +19,7 @@ def contruct_params(parser):
     parser.add_argument("--adam_epsilon", default=1e-8)
     parser.add_argument("--warmup_steps", default=0)
     parser.add_argument("--train_batch_size", default=24)
-    parser.add_argument("--eval_batch_size", default=24)
+    parser.add_argument("--eval_batch_size", default=8)
     parser.add_argument("--num_train_epochs", default=30)
     parser.add_argument("--gradient_accumulation_steps", default=16)
     parser.add_argument("--seed", default=42)
