@@ -26,11 +26,11 @@ def get_dataset(hparams, data_type):
     )
 
 def train_dataloader(hparams):
-    train_dataset = get_dataset(hparams, data_type="train")
+    train_dataset = get_dataset(hparams, data_type='train')
     return DataLoader(train_dataset, batch_size=hparams.train_batch_size, shuffle=True, num_workers=hparams.num_of_workers)
 
 def val_dataloader(hparams):
-    val_dataset = get_dataset(hparams, data_type="dev")
+    val_dataset = get_dataset(hparams, data_type='dev')
     return DataLoader(val_dataset, batch_size=hparams.eval_batch_size, num_workers=hparams.num_of_workers)
 
 def configure_optimizers(hparams, model, train_loader):
