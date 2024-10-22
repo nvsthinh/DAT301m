@@ -4,7 +4,7 @@ import os
 from tqdm.auto import tqdm
 from models.seqGenSQL import SeqGenSQL
 import warnings
-from utils import train_dataloader, val_dataloader, configure_optimizers, seed_everything
+from utils import train_dataloader, val_dataloader, configure_optimizers, seed_everything, step
 
 warnings.filterwarnings('ignore')
 
@@ -38,21 +38,21 @@ def contruct_params(parser):
     
     return args
 
-def train(model, train_loader, optimizer, scheduler):
+def train(model, train_loader, optimizer, scheduler, args):
     model.train()
     for batch in tqdm(train_loader):
         optimizer.zero_grad()
-        loss, _ = model.step(batch)
+        loss, _ = step(model, batch, args)
         loss.backward()
         optimizer.step()
         scheduler.step()
 
-def evaluate(model, val_loader):
+def evaluate(model, val_loader, args):
     model.eval()
     val_loss = 0
     with torch.no_grad():
         for batch in tqdm(val_loader):
-            loss, _ = model.step(batch)
+            loss, _ = step(model, batch, args)
             val_loss += loss.item()
     return val_loss / len(val_loader)
 
@@ -83,10 +83,10 @@ if __name__ == '__main__':
         print(f'Epoch {epoch+1}/{args.num_train_epochs}')
 
         # Training step
-        train(model, train_loader, optimizer, scheduler)
+        train(model, train_loader, optimizer, scheduler, args)
 
         # Evaluation step
-        eval_loss = evaluate(model, eval_loader)
+        eval_loss = evaluate(model, eval_loader, args)
         print(f"Evaluation Loss: {eval_loss}")
         # Save checkpoint
         model_save_path = os.path.join(args.output_dir, f"model_epoch_{epoch+1}.pt")
