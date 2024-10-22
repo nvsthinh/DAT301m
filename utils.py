@@ -14,7 +14,7 @@ from torch.nn import CrossEntropyLoss
 
 def get_dataset(hparams, data_type):
     return WikiSqlDataset(
-        tokenizer=T5Tokenizer.from_pretrained(hparams.model_name_or_path),
+        tokenizer=T5Tokenizer.from_pretrained(hparams.model_name_or_path, legacy=False),
         data_dir=hparams.data_dir,
         dataset_type=data_type,
         include_data_type=hparams.include_data_type,
