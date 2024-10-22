@@ -20,7 +20,7 @@ def contruct_params(parser):
     parser.add_argument("--warmup_steps", default=0)
     parser.add_argument("--train_batch_size", default=2)
     parser.add_argument("--eval_batch_size", default=2)
-    parser.add_argument("--num_train_epochs", default=30)
+    parser.add_argument("--num_train_epochs", default=15)
     parser.add_argument("--gradient_accumulation_steps", default=16)
     parser.add_argument("--seed", default=42)
     parser.add_argument("--num_of_workers", default=4)
