@@ -54,7 +54,7 @@ def seed_everything(seed):
         torch.cuda.manual_seed_all(seed)
 
 def step(model, batch, args):
-    lm_labels = batch["target_ids"].to(args.evice)
+    lm_labels = batch["target_ids"].to(args.device)
     lm_labels[lm_labels[:, :] == model.tokenizer.pad_token_id] = -100
 
     outputs = model.forward(
